@@ -1,0 +1,67 @@
+name: Install GCC
+description: Install GCC
+
+inputs:
+  platform:
+    description: Target platform
+    required: false
+    default: x64
+  cygwin:
+    description: Install inside Cygwin
+    required: false
+    default: 0
+
+runs:
+  using: composite
+  steps:
+    - id: setup
+      run: |
+        New-Variable os -Value '${{ runner.os }}' -Option Constant
+
+        New-Variable linux_host -Value ($os -eq 'Linux') -Option Constant
+        New-Variable cygwin_host -Value ('${{ inputs.cygwin }}' -eq '1') -Option Constant
+        New-Variable windows_host -Value ($os -eq 'Windows' -and !$cygwin) -Option Constant
+
+        New-Variable x64 -Value ('${{ inputs.platform }}' -eq 'x64') -Option Constant
+
+        function Locate-Choco {
+            $path = Get-Command 'choco' -ErrorAction SilentlyContinue
+            if ($path) {
+                $path.Path
+            } else {
+                Join-Path ${env:ProgramData} 'chocolatey' 'bin' 'choco'
+            }
+        }
+
+        if ($linux_host) {
+            sudo apt update
+            if ($x64) {
+                sudo apt install -y g++
+            } else {
+                sudo apt install -y g++-multilib
+            }
+        } elseif ($cygwin_host) {
+            if (!$x64) {
+              echo @'
+        ::warning ::
+        32-bit-targeting GCC is unstable and/or unmaintained on 64-bit Cygwin.
+        Please use 32-bit Cygwin instead.
+        If you _are_ using 32-bit Cygwin, you can ignore this message.
+        '@
+            }
+            $choco = Locate-Choco
+            & $choco install -y --no-progress --source=cygwin gcc-g++
+        } elseif ($windows_host) {
+            # TODO: use setup-mingw when calling composite actions within
+            # composite actions is implemented.
+            echo @'
+        ::error ::
+        Please use the egor-tensin/setup-mingw action to install GCC on Windows.
+        '@
+            exit 1
+        }
+      shell: pwsh
+
+branding:
+  icon: star
+  color: green
