@@ -42,7 +42,7 @@ runs:
             }
         } elseif ($cygwin_host) {
             if (!$x64) {
-              echo @'
+                echo @'
         ::warning ::
         32-bit-targeting GCC is unstable and/or unmaintained on 64-bit Cygwin.
         Please use 32-bit Cygwin instead.
