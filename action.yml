@@ -59,6 +59,8 @@ runs:
         Please use the egor-tensin/setup-mingw action to install GCC on Windows.
         '@
             exit 1
+        } else {
+            throw "Sorry, installing GCC is unsupported on $os"
         }
       shell: pwsh
 
