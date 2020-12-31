@@ -43,6 +43,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Clean up PATH
+        uses: egor-tensin/cleanup-path@v1
+        if: runner.os == 'Windows'
+
       - name: Install Cygwin
         uses: egor-tensin/setup-cygwin@master
         with:
@@ -55,4 +59,21 @@ jobs:
           platform: '${{ matrix.platform }}'
           cygwin: '${{ matrix.cygwin }}'
 
-      # I'm not really sure as to how to properly verify that it worked :-(
+      - name: Build foo.exe
+        run: |
+          $flags = @()
+          if ('${{ matrix.platform }}' -eq 'x86') {
+              $flags += '-m32'
+          }
+          $flags += @(
+              '-x', 'c++',
+              '-std=c++14',
+              '-o', 'foo',
+              'foo.cpp',
+              '-lstdc++'
+          )
+          if ('${{ runner.os }}' -eq 'Linux') {
+              $flags += '-lpthread'
+          }
+          & g++ $flags
+          & (Join-Path . foo)
