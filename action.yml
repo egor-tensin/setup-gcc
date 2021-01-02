@@ -89,6 +89,7 @@ runs:
         if ($linux_host) {
             $pkg = if ($x64) { 'g++' } else { 'g++-multilib' }
             Install-Package $pkg
+
             Link-Exe -Exe gcc -LinkName cc
             Link-Exe -Exe g++ -LinkName c++
         } elseif ($cygwin_host) {
@@ -100,7 +101,9 @@ runs:
         If you _are_ using 32-bit Cygwin, you can ignore this message.
         '@
             }
+
             Install-Package gcc-g++
+
             Link-Exe -Exe gcc -LinkName cc
             Link-Exe -Exe g++ -LinkName c++
         } elseif ($windows_host) {

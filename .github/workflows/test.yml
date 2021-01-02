@@ -62,11 +62,7 @@ jobs:
           if ('${{ matrix.platform }}' -eq 'x86') {
               $flags += '-m32'
           }
-          $flags += @(
-              '-std=c++14',
-              '-o', 'foo',
-              'foo.cpp'
-          )
+          $flags += '-std=c++14','-o','foo','foo.cpp'
           if ('${{ runner.os }}' -eq 'Linux') {
               $flags += '-lpthread'
           }
@@ -79,8 +75,10 @@ jobs:
           Doing something #2
           Doing something #3
           "@
+
           $actual = & (Join-Path . foo)
           $actual = $actual -join [Environment]::NewLine
+
           $($actual -eq $expected) -or $(throw @"
           Unexpected output:
           $actual
