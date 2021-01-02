@@ -32,6 +32,26 @@ runs:
             }
         }
 
+        function Install-Package {
+            param(
+                [Parameter(Mandatory=$true, ValueFromRemainingArguments=$true)]
+                [string[]] $Packages
+            )
+
+            if ($script:linux_host) {
+                sudo apt-get update -yq
+                sudo apt-get install -yq --no-install-recommends $Packages
+            } elseif ($script:cygwin_host) {
+                $choco = Locate-Choco
+                & $choco install -y --no-progress --source=cygwin $Packages
+            } elseif ($script:windows_host) {
+                $choco = Locate-Choco
+                & $choco install -y --no-progress $Packages
+            } else {
+                throw "Sorry, installing packages is unsupported on $script:os"
+            }
+        }
+
         function Make-Link {
             param(
                 [Parameter(Mandatory=$true)]
@@ -65,13 +85,8 @@ runs:
         }
 
         if ($linux_host) {
-            sudo apt update
-            if ($x64) {
-                sudo apt install -y g++
-            } else {
-                sudo apt install -y g++-multilib
-            }
-
+            $pkg = if ($x64) { 'g++' } else { 'g++-multilib' }
+            Install-Package $pkg
             Make-Link -Exe gcc -LinkName cc
             Make-Link -Exe g++ -LinkName c++
         } elseif ($cygwin_host) {
@@ -83,9 +98,7 @@ runs:
         If you _are_ using 32-bit Cygwin, you can ignore this message.
         '@
             }
-            $choco = Locate-Choco
-            & $choco install -y --no-progress --source=cygwin gcc-g++
-
+            Install-Package gcc-g++
             Make-Link -Exe gcc -LinkName cc
             Make-Link -Exe g++ -LinkName c++
         } elseif ($windows_host) {
