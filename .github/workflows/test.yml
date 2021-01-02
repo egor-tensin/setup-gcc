@@ -15,25 +15,22 @@ jobs:
       matrix:
         platform: [x86, x64]
         cygwin: [0, 1]
-        os: [ubuntu-18.04, windows-2019, windows-2016]
+        os: [ubuntu-18.04, windows-2019]
 
         include:
           # Prettier run names.
           - {os: ubuntu-18.04, name: Ubuntu}
-          - {os: windows-2019, name: Windows Server 2019}
-          - {os: windows-2016, name: Windows Server 2016}
           - {cygwin: 1, name: Cygwin}
         exclude:
           # No Cygwin on Ubuntu.
           - {os: ubuntu-18.04, cygwin: 1}
-          # Cygwin is the same on Windows Server 2016 & 2019.
-          - {os: windows-2016, cygwin: 1}
+          # This action is not suitable for Windows hosts, use setup-mingw for
+          # that.
+          - {os: windows-2019, cygwin: 0}
 
     runs-on: '${{ matrix.os }}'
 
     name: '${{ matrix.name }} / ${{ matrix.platform }}'
-
-    continue-on-error: ${{ (matrix.os == 'windows-2016' || matrix.os == 'windows-2019') && !matrix.cygwin }}
 
     defaults:
       run:
