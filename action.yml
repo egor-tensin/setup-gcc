@@ -52,7 +52,7 @@ runs:
             }
         }
 
-        function Make-Link {
+        function Link-Exe {
             param(
                 [Parameter(Mandatory=$true)]
                 [string] $ExeName,
@@ -60,16 +60,18 @@ runs:
                 [string] $LinkName
             )
 
+            # Full executable path, including the extension:
             $exe_path = (Get-Command $ExeName).Path
             $exe_dir = Split-Path $exe_path
             $exe_name = Split-Path $exe_path -Leaf
-            if (!$exe_name.StartsWith($ExeName)) {
-                throw "'$exe_name' must start with '$ExeName'"
-            }
-            $ext = $exe_name.Substring($ExeName.Length)
+            $exe_ext = [System.IO.Path]::GetExtension($exe_name)
 
             $link_dir = if ($script:linux_host) { '/usr/local/bin' } else { $exe_dir }
-            $link_name = $LinkName + $ext
+            $link_name = $LinkName
+            # On Windows, append .exe if required:
+            if (!$script:linux_host -and [System.IO.Path]::GetExtension($link_name) -ne $exe_ext) {
+                $link_name += $exe_ext
+            }
             $link_path = Join-Path $link_dir $link_name
 
             echo "Creating link '$link_path', pointing to '$exe_path'"
@@ -87,8 +89,8 @@ runs:
         if ($linux_host) {
             $pkg = if ($x64) { 'g++' } else { 'g++-multilib' }
             Install-Package $pkg
-            Make-Link -Exe gcc -LinkName cc
-            Make-Link -Exe g++ -LinkName c++
+            Link-Exe -Exe gcc -LinkName cc
+            Link-Exe -Exe g++ -LinkName c++
         } elseif ($cygwin_host) {
             if (!$x64) {
                 echo @'
@@ -99,8 +101,8 @@ runs:
         '@
             }
             Install-Package gcc-g++
-            Make-Link -Exe gcc -LinkName cc
-            Make-Link -Exe g++ -LinkName c++
+            Link-Exe -Exe gcc -LinkName cc
+            Link-Exe -Exe g++ -LinkName c++
         } elseif ($windows_host) {
             # TODO: use setup-mingw when calling composite actions within
             # composite actions is implemented.
