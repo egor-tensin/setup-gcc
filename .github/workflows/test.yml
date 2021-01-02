@@ -85,3 +85,13 @@ jobs:
           Unexpected output:
           $actual
           "@)
+
+      # Is this really the most stable piece of `gcc --version` output?
+      - name: Check cc/c++
+        run: |
+          $cc = & cc --version
+          echo $cc
+          $($cc | Select-String -Pattern "This is free software; see the source for copying conditions." -SimpleMatch -Quiet) -or $(throw "Unexpected `cc --version` output")
+          $cxx = & c++ --version
+          echo $cxx
+          $($cxx | Select-String -Pattern "This is free software; see the source for copying conditions." -SimpleMatch -Quiet) -or $(throw "Unexpected `c++ --version` output")
