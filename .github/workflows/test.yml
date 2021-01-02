@@ -63,16 +63,14 @@ jobs:
               $flags += '-m32'
           }
           $flags += @(
-              '-x', 'c++',
               '-std=c++14',
               '-o', 'foo',
-              'foo.cpp',
-              '-lstdc++'
+              'foo.cpp'
           )
           if ('${{ runner.os }}' -eq 'Linux') {
               $flags += '-lpthread'
           }
-          & g++ $flags
+          g++ $flags
 
       - name: Run foo.exe
         run: |
