@@ -10,6 +10,10 @@ inputs:
     description: Install inside Cygwin
     required: false
     default: 0
+  cc:
+    description: Set up cc/c++ executables
+    required: false
+    default: 1
 
 runs:
   using: composite
@@ -52,46 +56,9 @@ runs:
             }
         }
 
-        function Link-Exe {
-            param(
-                [Parameter(Mandatory=$true)]
-                [string] $ExeName,
-                [Parameter(Mandatory=$true)]
-                [string] $LinkName
-            )
-
-            # Full executable path, including the extension:
-            $exe_path = (Get-Command $ExeName).Path
-            $exe_dir = Split-Path $exe_path
-            $exe_name = Split-Path $exe_path -Leaf
-            $exe_ext = [System.IO.Path]::GetExtension($exe_name)
-
-            $link_dir = if ($script:linux_host) { '/usr/local/bin' } else { $exe_dir }
-            $link_name = $LinkName
-            # On Windows, append .exe if required:
-            if (!$script:linux_host -and [System.IO.Path]::GetExtension($link_name) -ne $exe_ext) {
-                $link_name += $exe_ext
-            }
-            $link_path = Join-Path $link_dir $link_name
-
-            echo "Creating link '$link_path', pointing to '$exe_path'"
-            if ($script:linux_host) {
-                sudo rm -f -- $link_path
-                sudo ln -s -- $exe_path $link_path
-            } else {
-                if (Test-Path $link_path) {
-                    Remove-Item $link_path -Force
-                }
-                New-Item -ItemType HardLink -Path $link_path -Value $exe_path | Out-Null
-            }
-        }
-
         if ($linux_host) {
             $pkg = if ($x64) { 'g++' } else { 'g++-multilib' }
             Install-Package $pkg
-
-            Link-Exe -Exe gcc -LinkName cc
-            Link-Exe -Exe g++ -LinkName c++
         } elseif ($cygwin_host) {
             if (!$x64) {
                 echo @'
@@ -103,9 +70,6 @@ runs:
             }
 
             Install-Package gcc-g++
-
-            Link-Exe -Exe gcc -LinkName cc
-            Link-Exe -Exe g++ -LinkName c++
         } elseif ($windows_host) {
             # TODO: use setup-mingw when calling composite actions within
             # composite actions is implemented.
@@ -116,6 +80,43 @@ runs:
             exit 1
         } else {
             throw "Sorry, installing GCC is unsupported on $os"
+        }
+      shell: pwsh
+
+    - run: |
+        New-Variable os -Value '${{ runner.os }}' -Option Constant
+
+        New-Variable linux_host -Value ($os -eq 'Linux') -Option Constant
+        New-Variable cygwin_host -Value ('${{ inputs.cygwin }}' -eq '1') -Option Constant
+        New-Variable windows_host -Value ($os -eq 'Windows' -and !$cygwin_host) -Option Constant
+
+        New-Variable cc -Value ('${{ inputs.cc }}' -eq '1') -Option Constant
+
+        function Link-Exe {
+            param(
+                [Parameter(Mandatory=$true)]
+                [string] $Exe,
+                [Parameter(Mandatory=$true)]
+                [string] $LinkName
+            )
+
+            $exe_path = (Get-Command $Exe).Path
+            $link_dir = if ($script:windows_host) { Split-Path $exe_path } else { '/usr/local/bin' }
+            $link_name = if ($script:windows_host) { "$LinkName.exe" } else { $LinkName }
+            $link_path = if ($script:cygwin_host) { "$link_dir/$link_name" } else { Join-Path $link_dir $link_name }
+            echo "Creating link $link_path -> $exe_path"
+            if ($script:linux_host) {
+                sudo ln -f -s $exe_path $link_path
+            } elseif ($script:cygwin_host) {
+                ln.exe -f -s $exe_path $link_path
+            } elseif ($script:windows_host) {
+                New-Item -ItemType HardLink -Path $link_path -Value $exe_path -Force | Out-Null
+            }
+        }
+
+        if ($cc) {
+            Link-Exe gcc cc
+            Link-Exe g++ c++
         }
       shell: pwsh
 

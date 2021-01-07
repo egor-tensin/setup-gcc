@@ -55,6 +55,7 @@ jobs:
         with:
           platform: '${{ matrix.platform }}'
           cygwin: '${{ matrix.cygwin }}'
+          cc: 1
 
       - name: Build foo.exe
         run: |

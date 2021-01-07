@@ -21,6 +21,9 @@ Use it in your workflow like this:
 Use `x86` if you want to build 32-bit binaries.
 * Set the `cygwin` parameter to `1` to set up GCC inside an existing Cygwin
 installation (you can set up Cygwin itself using my action [setup-cygwin]).
+* `cc` and `c++` executables are set up, pointing to the `gcc` and `g++`
+executables.
+Disable this by setting the `cc` parameter to `0`.
 
 [setup-cygwin]: https://github.com/egor-tensin/setup-cygwin
 
@@ -33,6 +36,8 @@ API
 |          | *Other* | No      | Install the i686 toolchain.
 | cygwin   | 1       | No      | Install Cygwin packages.
 |          | *Other* | Yes     | Install native binaries.
+| cc       | 1       | Yes     | Set up `cc`/`c++` executables.
+|          | *Other* | No      | Don't set up `cc`/`c++`.
 
 License
 -------
