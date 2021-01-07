@@ -15,6 +15,7 @@ jobs:
       matrix:
         platform: [x86, x64]
         cygwin: [0, 1]
+        hardlinks: [0, 1]
         os: [ubuntu-18.04, windows-2019]
 
         include:
@@ -27,10 +28,12 @@ jobs:
           # This action is not suitable for Windows hosts, use setup-mingw for
           # that.
           - {os: windows-2019, cygwin: 0}
+          # Only test hardlinks on Cygwin.
+          - {cygwin: 0, hardlinks: 1}
 
     runs-on: '${{ matrix.os }}'
 
-    name: '${{ matrix.name }} / ${{ matrix.platform }}'
+    name: '${{ matrix.name }} / ${{ matrix.platform }} / Hardlinks: ${{ matrix.hardlinks }}'
 
     defaults:
       run:
@@ -56,6 +59,7 @@ jobs:
           platform: '${{ matrix.platform }}'
           cygwin: '${{ matrix.cygwin }}'
           cc: 1
+          hardlinks: '${{ matrix.hardlinks }}'
 
       - name: Build foo.exe
         run: |
@@ -68,6 +72,15 @@ jobs:
               $flags += '-lpthread'
           }
           g++ $flags
+        if: '!matrix.cygwin || matrix.hardlinks'
+
+      - name: Build foo.exe on Cygwin
+        run: |
+          $cwd = cygpath.exe -ua (Get-Location)
+          $arch = if ('${{ matrix.platform }}' -eq 'x64') { '-m64' } else { '-m32' }
+          $cmd = printf.exe -- 'cd %q && g++ %q -std=c++14 -o foo foo.cpp' $cwd $arch
+          bash.exe --login -o errexit -c $cmd
+        if: matrix.cygwin && !matrix.hardlinks
 
       - name: Run foo.exe
         run: |
@@ -88,9 +101,22 @@ jobs:
       # Is this really the most stable piece of `gcc --version` output?
       - name: Check cc/c++
         run: |
+          echo (Get-Command cc).Path
           $cc = & cc --version
           echo $cc
           $($cc | Select-String -Pattern "This is free software; see the source for copying conditions." -SimpleMatch -Quiet) -or $(throw "Unexpected `cc --version` output")
+          echo (Get-Command c++).Path
           $cxx = & c++ --version
           echo $cxx
           $($cxx | Select-String -Pattern "This is free software; see the source for copying conditions." -SimpleMatch -Quiet) -or $(throw "Unexpected `c++ --version` output")
+        if: '!matrix.cygwin || matrix.hardlinks'
+
+      - name: Check cc/c++ on Cygwin
+        run: |
+          $cc = bash.exe --login -o errexit -c 'cc --version'
+          echo $cc
+          $($cc | Select-String -Pattern "This is free software; see the source for copying conditions." -SimpleMatch -Quiet) -or $(throw "Unexpected `cc --version` output")
+          $cxx = bash.exe --login -o errexit -c 'c++ --version'
+          echo $cxx
+          $($cxx | Select-String -Pattern "This is free software; see the source for copying conditions." -SimpleMatch -Quiet) -or $(throw "Unexpected `c++ --version` output")
+        if: matrix.cygwin && !matrix.hardlinks

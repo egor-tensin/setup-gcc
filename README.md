@@ -30,14 +30,16 @@ Disable this by setting the `cc` parameter to `0`.
 API
 ---
 
-| Input    | Value   | Default | Description
-| -------- | ------- | ------- | -----------
-| platform | x64     | Yes     | Install the x86_64 toolchain.
-|          | *Other* | No      | Install the i686 toolchain.
-| cygwin   | 1       | No      | Install Cygwin packages.
-|          | *Other* | Yes     | Install native binaries.
-| cc       | 1       | Yes     | Set up `cc`/`c++` executables.
-|          | *Other* | No      | Don't set up `cc`/`c++`.
+| Input     | Value   | Default | Description
+| --------- | ------- | ------- | -----------
+| platform  | x64     | Yes     | Install the x86_64 toolchain.
+|           | *Other* | No      | Install the i686 toolchain.
+| cygwin    | 1       | No      | Install Cygwin packages.
+|           | *Other* | Yes     | Install native binaries.
+| cc        | 1       | Yes     | Set up `cc`/`c++` executables.
+|           | *Other* | No      | Don't set up `cc`/`c++`.
+| hardlinks | *Other* | Yes     | Cygwin: don't convert any symlinks.
+|           | 1       | No      | Cygwin: convert symlinks in /usr/bin to hardlinks.
 
 License
 -------
