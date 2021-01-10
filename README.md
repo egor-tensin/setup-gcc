@@ -34,8 +34,8 @@ API
 | --------- | ------- | ------- | -----------
 | platform  | x64     | Yes     | Install the x86_64 toolchain.
 |           | *Other* | No      | Install the i686 toolchain.
-| cygwin    | 1       | No      | Install Cygwin packages.
-|           | *Other* | Yes     | Install native binaries.
+| cygwin    | *Other* | Yes     | Install native binaries.
+|           | 1       | No      | Install Cygwin packages.
 | cc        | 1       | Yes     | Set up `cc`/`c++` executables.
 |           | *Other* | No      | Don't set up `cc`/`c++`.
 | hardlinks | *Other* | Yes     | Cygwin: don't convert any symlinks.
