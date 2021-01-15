@@ -51,10 +51,10 @@ runs:
                 sudo apt-get install -yq --no-install-recommends $Packages
             } elseif ($script:cygwin_host) {
                 $choco = Locate-Choco
-                & $choco install -y --no-progress --source=cygwin $Packages
+                & $choco install $Packages -y --no-progress --source=cygwin
             } elseif ($script:windows_host) {
                 $choco = Locate-Choco
-                & $choco install -y --no-progress $Packages
+                & $choco upgrade $Packages -y --no-progress --allow-downgrade
             } else {
                 throw "Sorry, installing packages is unsupported on $script:os"
             }
