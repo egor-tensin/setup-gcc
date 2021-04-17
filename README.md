@@ -1,7 +1,7 @@
 Set up GCC
 ==========
 
-[![Test](https://github.com/egor-tensin/setup-gcc/workflows/Test/badge.svg)](https://github.com/egor-tensin/setup-gcc/actions?query=workflow%3ATest)
+[![Test](https://github.com/egor-tensin/setup-gcc/actions/workflows/test.yml/badge.svg)](https://github.com/egor-tensin/setup-gcc/actions/workflows/test.yml)
 
 This is a GitHub action that sets up GCC in your workflow run.
 
