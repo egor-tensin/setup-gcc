@@ -3,7 +3,7 @@ Set up GCC
 
 [![Test](https://github.com/egor-tensin/setup-gcc/actions/workflows/test.yml/badge.svg)](https://github.com/egor-tensin/setup-gcc/actions/workflows/test.yml)
 
-This is a GitHub action that sets up GCC in your workflow run.
+This GitHub action sets up GCC in your workflow run.
 
 1. Installs either 32-bit or 64-bit GCC on either Ubuntu or Cygwin.
 2. For installing GCC on Windows please see my action [setup-mingw].
@@ -33,12 +33,12 @@ API
 | Input     | Value   | Default | Description
 | --------- | ------- | ------- | -----------
 | platform  | x64     | ✓       | Install the x86_64 toolchain.
-|           | *Other* |         | Install the i686 toolchain.
-| cygwin    | *Other* | ✓       | Install native binaries.
+|           | *any*   |         | Install the i686 toolchain.
+| cygwin    | *any*   | ✓       | Install native binaries.
 |           | 1       |         | Install Cygwin packages.
 | cc        | 1       | ✓       | Set up `cc`/`c++` executables.
-|           | *Other* |         | Don't set up `cc`/`c++`.
-| hardlinks | *Other* | ✓       | Cygwin: don't convert any symlinks.
+|           | *any*   |         | Don't set up `cc`/`c++`.
+| hardlinks | *any*   | ✓       | Cygwin: don't convert any symlinks.
 |           | 1       |         | Cygwin: convert symlinks in /usr/bin to hardlinks.
 
 License
