@@ -16,15 +16,19 @@ jobs:
         platform: [x86, x64]
         cygwin: [0, 1]
         hardlinks: [0, 1]
-        os: [ubuntu-18.04, windows-2019]
+        os: [ubuntu-18.04, ubuntu-20.04, ubuntu-latest, windows-2019]
 
         include:
           # Prettier run names.
-          - {os: ubuntu-18.04, name: Ubuntu}
+          - {os: ubuntu-18.04, name: Ubuntu 18.04}
+          - {os: ubuntu-20.04, name: Ubuntu 20.04}
+          - {os: ubuntu-latest, name: Ubuntu (latest)}
           - {cygwin: 1, name: Cygwin}
         exclude:
           # No Cygwin on Ubuntu.
           - {os: ubuntu-18.04, cygwin: 1}
+          - {os: ubuntu-20.04, cygwin: 1}
+          - {os: ubuntu-latest, cygwin: 1}
           # This action is not suitable for Windows hosts, use setup-mingw for
           # that.
           - {os: windows-2019, cygwin: 0}
