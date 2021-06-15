@@ -16,7 +16,7 @@ jobs:
         platform: [x86, x64]
         cygwin: [0, 1]
         hardlinks: [0, 1]
-        os: [ubuntu-18.04, ubuntu-20.04, ubuntu-latest, windows-2019]
+        os: [ubuntu-18.04, ubuntu-20.04, ubuntu-latest, windows-latest]
 
         include:
           # Prettier run names.
@@ -31,7 +31,7 @@ jobs:
           - {os: ubuntu-latest, cygwin: 1}
           # This action is not suitable for Windows hosts, use setup-mingw for
           # that.
-          - {os: windows-2019, cygwin: 0}
+          - {os: windows-latest, cygwin: 0}
           # Only test hardlinks on Cygwin.
           - {cygwin: 0, hardlinks: 1}
 
