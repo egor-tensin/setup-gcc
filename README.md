@@ -47,13 +47,13 @@ Supported versions
 ------------------
 
 Unless the `version` parameter value is "latest", the ubuntu-toolchain-r/test
-PPA is added to make more GCC versions available.
-Then you can pass the version number as the `version` parameter value ('4.8',
-'8', '9', etc.), and this action will install the corresponding `g++-VERSION`
+PPA is used to make more GCC versions available.
+You can pass the version number as the `version` parameter value (`4.8`, `8`,
+`9`, etc.), and this action will install the corresponding `g++-VERSION`
 package.
 
-The `version` value is not checked for being an available version for the
-current distribution.
+The `version` parameter value is not checked for being an available version for
+the current distribution.
 The supported versions for a particular distribution are those found in the
 official repositories & those found in that distribution's series in the PPA.
 For example, the supported versions for Bionic & Focal as of July 2021 are
