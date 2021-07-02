@@ -1,0 +1,20 @@
+name: Build foo.exe
+description: Build foo.exe
+inputs:
+  platform:
+    description: Target platform
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: |
+        $flags = @()
+        if ('${{ matrix.platform }}' -eq 'x86') {
+            $flags += '-m32'
+        }
+        $flags += '-std=c++14','-o','foo','foo.cpp'
+        if ('${{ runner.os }}' -eq 'Linux') {
+            $flags += '-lpthread'
+        }
+        g++ $flags
+      shell: pwsh

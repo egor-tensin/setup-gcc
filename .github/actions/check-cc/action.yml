@@ -1,0 +1,16 @@
+name: Check cc/c++
+description: Check cc/c++
+runs:
+  using: composite
+  steps:
+    # Is this really the most stable piece of `gcc --version` output?
+    - run: |
+        echo (Get-Command cc).Path
+        $cc = & cc --version
+        echo $cc
+        $($cc | Select-String -Pattern "This is free software; see the source for copying conditions." -SimpleMatch -Quiet) -or $(throw "Unexpected `cc --version` output")
+        echo (Get-Command c++).Path
+        $cxx = & c++ --version
+        echo $cxx
+        $($cxx | Select-String -Pattern "This is free software; see the source for copying conditions." -SimpleMatch -Quiet) -or $(throw "Unexpected `c++ --version` output")
+      shell: pwsh
