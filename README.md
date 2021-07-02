@@ -34,7 +34,7 @@ API
 | --------- | ------- | ------- | -----------
 | version   | latest  | ✓       | Install the latest version available in the repository.
 |           | *any*   |         | Install a specific version if it's available (see below).
-| platform  | x64     | k       | Install the x86_64 toolchain.
+| platform  | x64     | ✓       | Install the x86_64 toolchain.
 |           | *any*   |         | Install the i686 toolchain.
 | cygwin    | *any*   | ✓       | Install native binaries.
 |           | 1       |         | Install Cygwin packages.
