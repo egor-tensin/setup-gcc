@@ -6,6 +6,7 @@ Set up GCC
 This GitHub action sets up GCC in your workflow run.
 
 1. Installs either 32-bit or 64-bit GCC on either Ubuntu or Cygwin.
+2. Specify a version to install using the `version` parameter.
 2. For installing GCC on Windows please see my action [setup-mingw].
 
 [setup-mingw]: https://github.com/egor-tensin/setup-mingw
@@ -15,8 +16,10 @@ Use it in your workflow like this:
     - name: Set up GCC
       uses: egor-tensin/setup-gcc@v1
       with:
+        version: latest
         platform: x64
 
+* `latest` is the default value for the `version` parameter and can be omitted.
 * `x64` is the default value for the `platform` parameter and can be omitted.
 Use `x86` if you want to build 32-bit binaries.
 * Set the `cygwin` parameter to `1` to set up GCC inside an existing Cygwin
