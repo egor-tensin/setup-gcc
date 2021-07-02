@@ -7,7 +7,7 @@ This GitHub action sets up GCC in your workflow run.
 
 1. Installs either 32-bit or 64-bit GCC on either Ubuntu or Cygwin.
 2. Specify a version to install using the `version` parameter.
-2. For installing GCC on Windows please see my action [setup-mingw].
+3. For installing GCC on Windows please see my action [setup-mingw].
 
 [setup-mingw]: https://github.com/egor-tensin/setup-mingw
 
