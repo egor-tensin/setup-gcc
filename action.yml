@@ -22,6 +22,7 @@ inputs:
     description: On Cygwin, replace executable symlinks with hardlinks
     required: false
     default: 0
+
 outputs:
   gcc:
     description: gcc binary name
