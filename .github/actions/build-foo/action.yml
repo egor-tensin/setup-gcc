@@ -1,6 +1,9 @@
 name: Build foo.exe
 description: Build foo.exe
 inputs:
+  version:
+    description: Version to use
+    required: false
   platform:
     description: Target platform
     required: true
@@ -8,6 +11,9 @@ runs:
   using: composite
   steps:
     - run: |
+        $version = '${{ inputs.version }}'
+        $version = if ($version) { "-$version" } else { $version }
+
         $flags = @()
         if ('${{ matrix.platform }}' -eq 'x86') {
             $flags += '-m32'
@@ -16,5 +22,6 @@ runs:
         if ('${{ runner.os }}' -eq 'Linux') {
             $flags += '-lpthread'
         }
-        g++ $flags
+
+        & "g++$version" $flags
       shell: pwsh

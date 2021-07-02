@@ -53,6 +53,8 @@ jobs:
           cc: 1
       - name: Build foo.exe
         uses: ./.github/actions/build-foo
+        with:
+          version: '${{ matrix.version }}'
       - name: Run foo.exe
         uses: ./.github/actions/run-foo
       - name: Check cc/c++
