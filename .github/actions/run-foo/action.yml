@@ -13,8 +13,14 @@ runs:
         $actual = & (Join-Path . foo)
         $actual = $actual -join [Environment]::NewLine
 
-        $($actual -eq $expected) -or $(throw @"
-        Unexpected output:
+        echo @"
+        Expected output:
+        $expected
+        "@
+        echo @"
+        Actual output:
         $actual
-        "@)
+        "@
+
+        $($actual -eq $expected) -or $(throw "Unexpected output!")
       shell: pwsh
