@@ -32,7 +32,9 @@ API
 
 | Input     | Value   | Default | Description
 | --------- | ------- | ------- | -----------
-| platform  | x64     | ✓       | Install the x86_64 toolchain.
+| version   | latest  | ✓       | Install the latest version available in the repository.
+|           | *any*   |         | Install a specific version if it's available (see below).
+| platform  | x64     | k       | Install the x86_64 toolchain.
 |           | *any*   |         | Install the i686 toolchain.
 | cygwin    | *any*   | ✓       | Install native binaries.
 |           | 1       |         | Install Cygwin packages.
@@ -40,6 +42,38 @@ API
 |           | *any*   |         | Don't set up `cc`/`c++`.
 | hardlinks | *any*   | ✓       | Cygwin: don't convert any symlinks.
 |           | 1       |         | Cygwin: convert symlinks in /usr/bin to hardlinks.
+
+Supported versions
+------------------
+
+Unless the `version` parameter value is "latest", the ubuntu-toolchain-r/test
+PPA is added to make more GCC versions available.
+Then you can pass the version number as the `version` parameter value ('4.8',
+'8', '9', etc.), and this action will install the corresponding `g++-VERSION`
+package.
+
+The `version` value is not checked for being an available version for the
+current distribution.
+The supported versions for a particular distribution are those found in the
+official repositories & those found in that distribution's series in the PPA.
+For example, the supported versions for Bionic & Focal as of July 2021 are
+listed below.
+
+| `version` | Bionic | Focal
+| --------- | ------ | -----
+| 4.8       | ✓      |
+| 5         | ✓      |
+| 6         | ✓      |
+| 7         | ✓      | ✓
+| 8         | ✓      | ✓
+| 9         | ✓      | ✓
+| 10        | ✓      | ✓
+| 11        | ✓      | ✓
+
+This table is not definitive; I expect more future versions of GCC to be made
+available in the PPA, especially for Focal.
+
+On Cygwin, the `version` parameter is ignored.
 
 License
 -------

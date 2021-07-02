@@ -2,6 +2,10 @@ name: Install GCC
 description: Install GCC
 
 inputs:
+  version:
+    description: GCC version to install
+    required: false
+    default: latest
   platform:
     description: Target platform
     required: false
@@ -18,17 +22,27 @@ inputs:
     description: On Cygwin, replace executable symlinks with hardlinks
     required: false
     default: 0
+outputs:
+  gcc:
+    description: gcc binary name
+    value: '${{ steps.install.outputs.gcc }}'
+  gxx:
+    description: g++ binary name
+    value: '${{ steps.install.outputs.gxx }}'
 
 runs:
   using: composite
   steps:
-    - run: |
+    - id: install
+      run: |
         New-Variable os -Value '${{ runner.os }}' -Option Constant
 
         New-Variable linux_host -Value ($os -eq 'Linux') -Option Constant
         New-Variable cygwin_host -Value ('${{ inputs.cygwin }}' -eq '1') -Option Constant
         New-Variable windows_host -Value ($os -eq 'Windows' -and !$cygwin_host) -Option Constant
 
+        New-Variable version -Value ('${{ inputs.version }}') -Option Constant
+        New-Variable latest -Value ($version -eq 'latest') -Option Constant
         New-Variable x64 -Value ('${{ inputs.platform }}' -eq 'x64') -Option Constant
 
         function Locate-Choco {
@@ -38,6 +52,10 @@ runs:
             } else {
                 Join-Path ${env:ProgramData} 'chocolatey' 'bin' 'choco'
             }
+        }
+
+        function Enable-TestingPPA {
+            sudo add-apt-repository --yes --update ppa:ubuntu-toolchain-r/test
         }
 
         function Install-Package {
@@ -61,7 +79,18 @@ runs:
         }
 
         if ($linux_host) {
-            $pkg = if ($x64) { 'g++' } else { 'g++-multilib' }
+            $pkg = 'g++'
+            $gcc = 'gcc'
+            $gxx = 'g++'
+            if (!$latest) {
+                Enable-TestingPPA
+                $pkg += "-$version"
+                $gcc += "-$version"
+                $gxx += "-$version"
+            }
+            if (!$x64) {
+                $pkg += '-multilib'
+            }
             Install-Package $pkg
         } elseif ($cygwin_host) {
             if (!$x64) {
@@ -73,7 +102,11 @@ runs:
         '@
             }
 
-            Install-Package gcc-g++
+            $pkg = 'gcc-g++'
+            $gcc = 'gcc'
+            $gxx = 'g++'
+
+            Install-Package $pkg
         } elseif ($windows_host) {
             # TODO: use setup-mingw when calling composite actions within
             # composite actions is implemented.
@@ -85,6 +118,9 @@ runs:
         } else {
             throw "Sorry, installing GCC is unsupported on $os"
         }
+
+        echo "::set-output name=gcc::$gcc"
+        echo "::set-output name=gxx::$gxx"
       shell: pwsh
 
     - run: |
@@ -119,8 +155,8 @@ runs:
         }
 
         if ($cc) {
-            Link-Exe gcc cc
-            Link-Exe g++ c++
+            Link-Exe '${{ steps.install.outputs.gcc }}' cc
+            Link-Exe '${{ steps.install.outputs.gxx }}' c++
         }
       shell: pwsh
 
