@@ -31,6 +31,35 @@ jobs:
       - name: Check cc/c++
         uses: ./.github/actions/check-cc
 
+  versions:
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
+        version: [4.8, 5, 6, 7, 8, 9, 10, 11]
+        exclude:
+          - {os: ubuntu-20.04, version: 4.8}
+          - {os: ubuntu-20.04, version: 5}
+          - {os: ubuntu-20.04, version: 6}
+    runs-on: '${{ matrix.os }}'
+    name: 'Version: ${{ matrix.os }} / ${{ matrix.version }}'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up GCC
+        uses: ./
+        with:
+          version: '${{ matrix.version }}'
+          platform: '${{ matrix.platform }}'
+          cc: 1
+      - name: Build foo.exe
+        uses: ./.github/actions/build-foo
+      - name: Run foo.exe
+        uses: ./.github/actions/run-foo
+      - name: Check cc/c++
+        uses: ./.github/actions/check-cc
+        with:
+          version: '${{ matrix.version }}'
+
   cygwin:
     strategy:
       matrix:

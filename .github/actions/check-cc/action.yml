@@ -1,16 +1,33 @@
 name: Check cc/c++
 description: Check cc/c++
+inputs:
+  version:
+    description: Specific version to check
+    required: false
 runs:
   using: composite
   steps:
-    # Is this really the most stable piece of `gcc --version` output?
     - run: |
-        echo (Get-Command cc).Path
-        $cc = & cc --version
-        echo $cc
-        $($cc | Select-String -Pattern "This is free software; see the source for copying conditions." -SimpleMatch -Quiet) -or $(throw "Unexpected `cc --version` output")
-        echo (Get-Command c++).Path
-        $cxx = & c++ --version
-        echo $cxx
-        $($cxx | Select-String -Pattern "This is free software; see the source for copying conditions." -SimpleMatch -Quiet) -or $(throw "Unexpected `c++ --version` output")
+        $version = '${{ inputs.version }}'
+
+        function Check-Exe {
+            param(
+                [Parameter(Mandatory=$true)]
+                [string] $Exe
+            )
+
+            echo (Get-Command $Exe).Path
+            $output = & $Exe --version
+            echo $output
+
+            # Is this really the most stable piece of `gcc --version` output?
+            $($output | Select-String -Pattern "This is free software; see the source for copying conditions." -SimpleMatch -Quiet) -or $(throw "Unexpected `$Exe --version` output")
+
+            if ($script:version) {
+                $($output | Select-String -Pattern "$script:version." -SimpleMatch -Quiet) -or $(throw "Unexpected `$Exe --version` output")
+            }
+        }
+
+        Check-Exe cc
+        Check-Exe c++
       shell: pwsh
