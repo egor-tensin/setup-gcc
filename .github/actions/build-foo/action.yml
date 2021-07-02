@@ -18,7 +18,7 @@ runs:
         if ('${{ matrix.platform }}' -eq 'x86') {
             $flags += '-m32'
         }
-        $flags += '-std=c++14','-o','foo','foo.cpp'
+        $flags += '-std=c++11','-o','foo','foo.cpp'
         if ('${{ runner.os }}' -eq 'Linux') {
             $flags += '-lpthread'
         }
