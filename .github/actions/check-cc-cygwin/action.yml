@@ -1,5 +1,5 @@
-name: Check cc/c++
-description: Check cc/c++ (on Cygwin)
+name: Check symlinks
+description: Check symlinks (on Cygwin)
 runs:
   using: composite
   steps:

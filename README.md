@@ -41,8 +41,8 @@ API
 |           | *any*   |         | Install the i686 toolchain.
 | cygwin    | *any*   | ✓       | Install native binaries.
 |           | 1       |         | Install Cygwin packages.
-| cc        | 1       | ✓       | Set up `cc`/`c++` executables.
-|           | *any*   |         | Don't set up `cc`/`c++`.
+| cc        | 1       | ✓       | Set up `cc`/`gcc`/`c++`/`g++` executables.
+|           | *any*   |         | Don't set up the executables.
 | hardlinks | *any*   | ✓       | Cygwin: don't convert any symlinks.
 |           | 1       |         | Cygwin: convert symlinks in /usr/bin to hardlinks.
 

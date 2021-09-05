@@ -15,7 +15,7 @@ inputs:
     required: false
     default: 0
   cc:
-    description: Set up cc/c++ executables
+    description: Set up cc/gcc/c++/g++ executables
     required: false
     default: 1
   hardlinks:
@@ -133,6 +133,9 @@ runs:
 
         New-Variable cc -Value ('${{ inputs.cc }}' -eq '1') -Option Constant
 
+        New-Variable gcc -Value '${{ steps.install.outputs.gcc }}' -Option Constant
+        New-Variable gxx -Value '${{ steps.install.outputs.gxx }}' -Option Constant
+
         function Link-Exe {
             param(
                 [Parameter(Mandatory=$true)]
@@ -156,8 +159,14 @@ runs:
         }
 
         if ($cc) {
-            Link-Exe '${{ steps.install.outputs.gcc }}' cc
-            Link-Exe '${{ steps.install.outputs.gxx }}' c++
+            Link-Exe $gcc cc
+            if ($gcc -ne 'gcc') {
+                Link-Exe $gcc 'gcc'
+            }
+            Link-Exe $gxx c++
+            if ($gxx -ne 'g++') {
+                Link-Exe $gxx 'g++'
+            }
         }
       shell: pwsh
 

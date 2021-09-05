@@ -28,7 +28,7 @@ jobs:
         uses: ./.github/actions/build-foo
       - name: Run foo.exe
         uses: ./.github/actions/run-foo
-      - name: Check cc/c++
+      - name: Check symlinks
         uses: ./.github/actions/check-cc
 
   versions:
@@ -57,7 +57,7 @@ jobs:
           version: '${{ matrix.version }}'
       - name: Run foo.exe
         uses: ./.github/actions/run-foo
-      - name: Check cc/c++
+      - name: Check symlinks
         uses: ./.github/actions/check-cc
         with:
           version: '${{ matrix.version }}'
@@ -93,9 +93,9 @@ jobs:
         if: '!matrix.hardlinks'
       - name: Run foo.exe
         uses: ./.github/actions/run-foo
-      - name: Check cc/c++
+      - name: Check symlinks
         uses: ./.github/actions/check-cc
         if: matrix.hardlinks
-      - name: Check cc/c++
+      - name: Check symlinks
         uses: ./.github/actions/check-cc-cygwin
         if: '!matrix.hardlinks'
