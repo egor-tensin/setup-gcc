@@ -120,8 +120,8 @@ runs:
             throw "Sorry, installing GCC is unsupported on $os"
         }
 
-        echo "::set-output name=gcc::$gcc"
-        echo "::set-output name=gxx::$gxx"
+        echo "gcc=$gcc" >> $env:GITHUB_OUTPUT
+        echo "gxx=$gxx" >> $env:GITHUB_OUTPUT
       shell: pwsh
 
     - run: |
