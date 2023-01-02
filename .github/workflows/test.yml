@@ -18,7 +18,7 @@ jobs:
     name: 'Test: ${{ matrix.os }} / ${{ matrix.platform }}'
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up GCC
         uses: ./
         with:
@@ -44,7 +44,7 @@ jobs:
     name: 'Version: ${{ matrix.os }} / ${{ matrix.version }}'
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up GCC
         uses: ./
         with:
@@ -70,11 +70,11 @@ jobs:
     name: 'Cygwin: hardlinks${{ matrix.hardlinks }}'
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Clean up PATH
-        uses: egor-tensin/cleanup-path@v1
+        uses: egor-tensin/cleanup-path@v3
       - name: Install Cygwin
-        uses: egor-tensin/setup-cygwin@v3
+        uses: egor-tensin/setup-cygwin@v4
       - name: Set up GCC
         uses: ./
         with:
