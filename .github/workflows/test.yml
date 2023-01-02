@@ -65,10 +65,9 @@ jobs:
   cygwin:
     strategy:
       matrix:
-        platform: [x86, x64]
         hardlinks: [0, 1]
     runs-on: windows-latest
-    name: 'Cygwin: ${{ matrix.platform }} / hardlinks${{ matrix.hardlinks }}'
+    name: 'Cygwin: hardlinks${{ matrix.hardlinks }}'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -76,8 +75,6 @@ jobs:
         uses: egor-tensin/cleanup-path@v1
       - name: Install Cygwin
         uses: egor-tensin/setup-cygwin@v3
-        with:
-          platform: '${{ matrix.platform }}'
       - name: Set up GCC
         uses: ./
         with:
