@@ -85,7 +85,6 @@ jobs:
       - name: Set up GCC
         uses: ./
         with:
-          platform: '${{ matrix.platform }}'
           cygwin: 1
           cc: 1
           hardlinks: '${{ matrix.hardlinks }}'
