@@ -1,9 +1,5 @@
 name: Build foo.exe
 description: Build foo.exe (on Cygwin)
-inputs:
-  platform:
-    description: Target platform
-    required: true
 runs:
   using: composite
   steps:
@@ -14,7 +10,5 @@ runs:
         echo "$src_dir"
         src_dir="$( cygpath -ua "$src_dir" )"
         cd -- "$src_dir"
-        arch=
-        [ '${{ matrix.platform }}' == 'x86' ] && arch=-m32
-        g++ $arch -std=c++14 -o foo foo.cpp
+        g++ -std=c++14 -o foo foo.cpp
       shell: C:\tools\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
