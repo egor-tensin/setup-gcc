@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         platform: [x86, x64]
-        os: [ubuntu-18.04, ubuntu-20.04, ubuntu-latest]
+        os: [ubuntu-18.04, ubuntu-20.04, ubuntu-22.04]
     runs-on: '${{ matrix.os }}'
     name: 'Test: ${{ matrix.os }} / ${{ matrix.platform }}'
     steps:
@@ -34,12 +34,19 @@ jobs:
   versions:
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04]
-        version: [4.8, 5, 6, 7, 8, 9, 10, 11]
+        os: [ubuntu-18.04, ubuntu-20.04, ubuntu-22.04]
+        version: [4.8, 5, 6, 7, 8, 9, 10, 11, 12]
         exclude:
+          - {os: ubuntu-18.04, version: 12}
           - {os: ubuntu-20.04, version: 4.8}
           - {os: ubuntu-20.04, version: 5}
           - {os: ubuntu-20.04, version: 6}
+          - {os: ubuntu-20.04, version: 12}
+          - {os: ubuntu-22.04, version: 4.8}
+          - {os: ubuntu-22.04, version: 5}
+          - {os: ubuntu-22.04, version: 6}
+          - {os: ubuntu-22.04, version: 7}
+          - {os: ubuntu-22.04, version: 8}
     runs-on: '${{ matrix.os }}'
     name: 'Version: ${{ matrix.os }} / ${{ matrix.version }}'
     steps:
