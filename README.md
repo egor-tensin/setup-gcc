@@ -73,8 +73,7 @@ below.
 | 11        | ✓      | ✓     | ✓
 | 12        |        |       | ✓
 
-This table is not definitive; I expect more future versions to be made
-available, especially for Focal.
+This table should be updated periodically; it's a work-in-progress.
 
 On Cygwin, the `version` parameter is ignored.
 
