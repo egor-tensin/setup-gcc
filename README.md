@@ -72,6 +72,7 @@ below.
 | 10        | ✓      | ✓     | ✓
 | 11        | ✓      | ✓     | ✓
 | 12        |        |       | ✓
+| 13        |        |       | ✓
 
 This table should be updated periodically; it's a work-in-progress.
 
