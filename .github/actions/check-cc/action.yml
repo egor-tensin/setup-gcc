@@ -8,8 +8,6 @@ runs:
   using: composite
   steps:
     - run: |
-        $version = '${{ inputs.version }}'
-
         function Check-Exe {
             param(
                 [Parameter(Mandatory=$true)]
@@ -23,8 +21,9 @@ runs:
             # Is this really the most stable piece of `gcc --version` output?
             $($output | Select-String -Pattern "This is free software; see the source for copying conditions." -SimpleMatch -Quiet) -or $(throw "Unexpected `$Exe --version` output")
 
-            if ($script:version) {
-                $($output | Select-String -Pattern "$script:version." -SimpleMatch -Quiet) -or $(throw "Unexpected `$Exe --version` output")
+            $version = '${{ inputs.version }}'
+            if ($version) {
+                $($output | Select-String -Pattern "$version." -SimpleMatch -Quiet) -or $(throw "Unexpected `$Exe --version` output")
             }
         }
 
