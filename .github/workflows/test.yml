@@ -13,12 +13,12 @@ jobs:
     strategy:
       matrix:
         platform: [x86, x64]
-        os: [ubuntu-18.04, ubuntu-20.04, ubuntu-22.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: '${{ matrix.os }}'
     name: 'Test: ${{ matrix.os }} / ${{ matrix.platform }}'
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: Set up GCC
         uses: ./
         with:
@@ -34,24 +34,13 @@ jobs:
   versions:
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04, ubuntu-22.04]
-        version: [4.8, 5, 6, 7, 8, 9, 10, 11, 12]
-        exclude:
-          - {os: ubuntu-18.04, version: 12}
-          - {os: ubuntu-20.04, version: 4.8}
-          - {os: ubuntu-20.04, version: 5}
-          - {os: ubuntu-20.04, version: 6}
-          - {os: ubuntu-20.04, version: 12}
-          - {os: ubuntu-22.04, version: 4.8}
-          - {os: ubuntu-22.04, version: 5}
-          - {os: ubuntu-22.04, version: 6}
-          - {os: ubuntu-22.04, version: 7}
-          - {os: ubuntu-22.04, version: 8}
+        os: [ubuntu-22.04]
+        version: [9, 10, 11, 12]
     runs-on: '${{ matrix.os }}'
     name: 'Version: ${{ matrix.os }} / ${{ matrix.version }}'
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: Set up GCC
         uses: ./
         with:
@@ -77,9 +66,9 @@ jobs:
     name: 'Cygwin: hardlinks${{ matrix.hardlinks }}'
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: Clean up PATH
-        uses: egor-tensin/cleanup-path@v3
+        uses: egor-tensin/cleanup-path@v4
       - name: Install Cygwin
         uses: egor-tensin/setup-cygwin@v4
       - name: Set up GCC
