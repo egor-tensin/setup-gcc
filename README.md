@@ -50,20 +50,17 @@ The `version` parameter value is not checked for being an available version for
 the current distribution.
 The supported versions for a particular distribution are those found in that
 distro's repositories & those in the PPA.
-For example, you can find the list of available versions as of January 2023
+For example, you can find the list of available versions as of December 2025
 below.
 
-| `version` | Bionic | Focal | Jammy
-| --------- | ------ | ----- | -----
-| 4.8       | ✓      |       |
-| 5         | ✓      |       |
-| 6         | ✓      |       |
-| 7         | ✓      | ✓     |
-| 8         | ✓      | ✓     |
-| 9         | ✓      | ✓     | ✓
-| 10        | ✓      | ✓     | ✓
-| 11        | ✓      | ✓     | ✓
-| 12        |        |       | ✓
+| `version` | Jammy | Noble
+| --------- | ----- | -----
+| 9         | ✓     | ✓
+| 10        | ✓     | ✓
+| 11        | ✓     | ✓
+| 12        | ✓     | ✓
+| 13        | ✓     | ✓
+| 14        |       | ✓
 
 This table should be updated periodically; it's a work-in-progress.
 
