@@ -14,7 +14,7 @@ This GitHub action sets up GCC in your workflow run.
 Use it in your workflow like this:
 
     - name: Set up GCC
-      uses: egor-tensin/setup-gcc@v1
+      uses: egor-tensin/setup-gcc@v2
       with:
         version: latest
         platform: x64
