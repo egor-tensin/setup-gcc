@@ -63,6 +63,11 @@ below.
 | 14        |       | ✓
 
 This table should be updated periodically; it's a work-in-progress.
+(Note to self: the list of available GCC versions can be found [here] and in
+the [PPA repo].)
+
+[here]: https://documentation.ubuntu.com/ubuntu-for-developers/reference/availability/gcc/
+[PPA repo]: https://launchpad.net/~ubuntu-toolchain-r/+archive/ubuntu/test
 
 License
 -------
