@@ -37,9 +37,7 @@ jobs:
       max-parallel: 3
       matrix:
         os: [ubuntu-22.04, ubuntu-24.04]
-        version: [9, 10, 11, 12, 13, 14]
-        exclude:
-          - {os: ubuntu-22.04, version: 14}
+        version: [9, 10, 11, 12, 13, 14, 15, 16]
     runs-on: '${{ matrix.os }}'
     name: 'Version: ${{ matrix.os }} / ${{ matrix.version }}'
     steps:

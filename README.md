@@ -43,14 +43,14 @@ Supported versions
 
 Unless the `version` parameter value is "latest", the ubuntu-toolchain-r/test
 PPA is used to make more versions available.
-You can pass the version number as the `version` parameter value (`4.8`, `8`,
-`9`, etc.), and this action will install the corresponding packages.
+You can pass the version number as the `version` parameter value (`10`, `12`,
+`15`, etc.), and this action will install the corresponding packages.
 
 The `version` parameter value is not checked for being an available version for
 the current distribution.
 The supported versions for a particular distribution are those found in that
 distro's repositories & those in the PPA.
-For example, you can find the list of available versions as of December 2025
+For example, you can find the list of available versions as of April 2026
 below.
 
 | `version` | Jammy | Noble
@@ -60,7 +60,9 @@ below.
 | 11        | ✓     | ✓
 | 12        | ✓     | ✓
 | 13        | ✓     | ✓
-| 14        |       | ✓
+| 14        | ✓     | ✓
+| 15        | ✓     | ✓
+| 16        | ✓     | ✓
 
 This table should be updated periodically; it's a work-in-progress.
 (Note to self: the list of available GCC versions can be found [here] and in
