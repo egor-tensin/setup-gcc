@@ -31,7 +31,10 @@ jobs:
         uses: ./.github/actions/check-cc
 
   versions:
+    needs: ubuntu
     strategy:
+      # A weak attempt to please Ubuntu servers:
+      max-parallel: 3
       matrix:
         os: [ubuntu-22.04, ubuntu-24.04]
         version: [9, 10, 11, 12, 13, 14]
