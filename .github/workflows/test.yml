@@ -23,10 +23,10 @@ jobs:
         with:
           platform: '${{ matrix.platform }}'
           cc: 1
-      - name: Build foo.exe
-        uses: ./.github/actions/build-foo
-      - name: Run foo.exe
-        uses: ./.github/actions/run-foo
+      - name: Build threads.exe
+        uses: ./.github/actions/build-threads
+      - name: Run threads.exe
+        uses: ./.github/actions/run-threads
       - name: Check symlinks
         uses: ./.github/actions/check-cc
 
@@ -49,12 +49,12 @@ jobs:
           version: '${{ matrix.version }}'
           platform: '${{ matrix.platform }}'
           cc: 1
-      - name: Build foo.exe
-        uses: ./.github/actions/build-foo
+      - name: Build threads.exe
+        uses: ./.github/actions/build-threads
         with:
           version: '${{ matrix.version }}'
-      - name: Run foo.exe
-        uses: ./.github/actions/run-foo
+      - name: Run threads.exe
+        uses: ./.github/actions/run-threads
       - name: Check symlinks
         uses: ./.github/actions/check-cc
         with:
