@@ -50,19 +50,19 @@ The `version` parameter value is not checked for being an available version for
 the current distribution.
 The supported versions for a particular distribution are those found in that
 distro's repositories & those in the PPA.
-For example, you can find the list of available versions as of April 2026
+For example, you can find the list of available versions as of October 2026
 below.
 
-| `version` | Jammy | Noble
-| --------- | ----- | -----
-| 9         | ✓     | ✓
-| 10        | ✓     | ✓
-| 11        | ✓     | ✓
-| 12        | ✓     | ✓
-| 13        | ✓     | ✓
-| 14        | ✓     | ✓
-| 15        | ✓     | ✓
-| 16        | ✓     | ✓
+| `version` | Jammy | Noble | Resolute
+| --------- | ----- | ----- | --------
+| 9         | ✓     | ✓     |
+| 10        | ✓     | ✓     |
+| 11        | ✓     | ✓     | ✓
+| 12        | ✓     | ✓     | ✓
+| 13        | ✓     | ✓     | ✓
+| 14        | ✓     | ✓     | ✓
+| 15        | ✓     | ✓     | ✓
+| 16        | ✓     | ✓     | ✓
 
 This table should be updated periodically; it's a work-in-progress.
 (Note to self: the list of available GCC versions can be found [here] and in

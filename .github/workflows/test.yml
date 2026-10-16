@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         platform: [x86, x64]
-        os: [ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04]
     runs-on: '${{ matrix.os }}'
     name: 'Test: ${{ matrix.os }} / ${{ matrix.platform }}'
     steps:
@@ -36,8 +36,11 @@ jobs:
       # A weak attempt to please Ubuntu servers:
       max-parallel: 3
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04]
         version: [9, 10, 11, 12, 13, 14, 15, 16]
+        exclude:
+          - {os: ubuntu-26.04, version: 9}
+          - {os: ubuntu-26.04, version: 10}
     runs-on: '${{ matrix.os }}'
     name: 'Version: ${{ matrix.os }} / ${{ matrix.version }}'
     steps:
