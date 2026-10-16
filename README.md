@@ -31,12 +31,12 @@ API
 
 | Input     | Value   | Default | Description
 | --------- | ------- | ------- | -----------
-| version   | latest  | ✓       | Install the latest version available in the repository.
-|           | *any*   |         | Install a specific version if it's available (see below).
-| platform  | x64     | ✓       | Install the x86_64 toolchain.
-|           | *any*   |         | Install the i686 toolchain.
-| cc        | 1       | ✓       | Set up `cc`/`gcc`/`c++`/`g++` executables.
-|           | *any*   |         | Don't set up the executables.
+| version   | latest  | ✓       | Install the latest version available in the repository
+|           | *any*   |         | Install a specific version if it's available (see below)
+| platform  | x64     | ✓       | Install the x86_64 toolchain
+|           | *any*   |         | Install the i686 toolchain
+| cc        | 1       | ✓       | Set up `cc`/`gcc`/`c++`/`g++` executables
+|           | *any*   |         | Don't set up the executables
 
 Supported versions
 ------------------
