@@ -18,24 +18,25 @@ inputs:
 outputs:
   gcc:
     description: gcc binary name
-    value: '${{ steps.install.outputs.gcc }}'
+    value: ${{ steps.install.outputs.gcc }}
   gxx:
     description: g++ binary name
-    value: '${{ steps.install.outputs.gxx }}'
+    value: ${{ steps.install.outputs.gxx }}
 
 runs:
   using: composite
   steps:
     - id: install
+      env:
+        ARG_VERSION: ${{ inputs.version }}
+        ARG_PLATFORM: ${{ inputs.platform }}
       run: |
-        New-Variable os -Value '${{ runner.os }}' -Option Constant
+        $linux_host = '${{ runner.os }}' -eq 'Linux'
+        $windows_host = '${{ runner.os }}' -eq 'Windows'
 
-        New-Variable linux_host -Value ($os -eq 'Linux') -Option Constant
-        New-Variable windows_host -Value ($os -eq 'Windows') -Option Constant
-
-        New-Variable version -Value ('${{ inputs.version }}') -Option Constant
-        New-Variable latest -Value ($version -eq 'latest') -Option Constant
-        New-Variable x64 -Value ('${{ inputs.platform }}' -eq 'x64') -Option Constant
+        $version = $env:ARG_VERSION
+        $latest = $version -eq 'latest'
+        $x64 = $env:PLATFORM -eq 'x64'
 
         function Locate-Choco {
             $path = Get-Command 'choco' -ErrorAction SilentlyContinue
@@ -97,16 +98,18 @@ runs:
         echo "gxx=$gxx" >> $env:GITHUB_OUTPUT
       shell: pwsh
 
-    - run: |
-        New-Variable os -Value '${{ runner.os }}' -Option Constant
+    - env:
+        ARG_CC: ${{ inputs.cc }}
+        GCC: ${{ steps.install.outputs.gcc }}
+        GXX: ${{ steps.install.outputs.gxx }}
+      run: |
+        $linux_host = '${{ runner.os }}' -eq 'Linux'
+        $windows_host = '${{ runner.os }}' -eq 'Windows'
 
-        New-Variable linux_host -Value ($os -eq 'Linux') -Option Constant
-        New-Variable windows_host -Value ($os -eq 'Windows') -Option Constant
+        $cc = $env:ARG_CC -eq '1'
 
-        New-Variable cc -Value ('${{ inputs.cc }}' -eq '1') -Option Constant
-
-        New-Variable gcc -Value '${{ steps.install.outputs.gcc }}' -Option Constant
-        New-Variable gxx -Value '${{ steps.install.outputs.gxx }}' -Option Constant
+        $gcc = $env:GCC
+        $gxx = $env:GXX
 
         function Link-Exe {
             param(
