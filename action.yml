@@ -36,7 +36,7 @@ runs:
 
         $version = (Get-ChildItem env:ARG_VERSION).Value
         $latest = $version -eq 'latest'
-        $x64 = (Get-ChildItem env:PLATFORM).Value -eq 'x64'
+        $x64 = (Get-ChildItem env:ARG_PLATFORM).Value -eq 'x64'
 
         function Locate-Choco {
             $path = Get-Command 'choco' -ErrorAction SilentlyContinue
