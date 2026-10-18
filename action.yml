@@ -34,16 +34,16 @@ runs:
         $linux_host = '${{ runner.os }}' -eq 'Linux'
         $windows_host = '${{ runner.os }}' -eq 'Windows'
 
-        $version = $env:ARG_VERSION
+        $version = (Get-ChildItem env:ARG_VERSION).Value
         $latest = $version -eq 'latest'
-        $x64 = $env:PLATFORM -eq 'x64'
+        $x64 = (Get-ChildItem env:PLATFORM).Value -eq 'x64'
 
         function Locate-Choco {
             $path = Get-Command 'choco' -ErrorAction SilentlyContinue
             if ($path) {
                 $path.Path
             } else {
-                Join-Path ${env:ProgramData} 'chocolatey' 'bin' 'choco'
+                Join-Path (Get-ChildItem env:ProgramData).Value 'chocolatey' 'bin' 'choco'
             }
         }
 
@@ -106,10 +106,10 @@ runs:
         $linux_host = '${{ runner.os }}' -eq 'Linux'
         $windows_host = '${{ runner.os }}' -eq 'Windows'
 
-        $cc = $env:ARG_CC -eq '1'
+        $cc = (Get-ChildItem env:ARG_CC).Value -eq '1'
 
-        $gcc = $env:GCC
-        $gxx = $env:GXX
+        $gcc = (Get-ChildItem env:GCC).Value
+        $gxx = (Get-ChildItem env:GXX).Value
 
         function Link-Exe {
             param(
